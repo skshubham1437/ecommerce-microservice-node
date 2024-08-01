@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Cart Service API
+  description: API for managing user cart
+servers:
+  - url: http://localhost:3003
+    description: Development server
+
+paths:
+  /api/cart/add:
+    post:
+      summary: Add item to cart
+      description: Add a product to the user’s cart
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartItem'
+      responses:
+        200:
+          description: Item added to cart
+        400:
+          description: Invalid request or max quantity exceeded
+  /api/cart/update:
+    put:
+      summary: Update cart item
+      description: Update the quantity of a product in the user’s cart
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartItem'
+      responses:
+        200:
+          description: Cart updated
+        404:
+          description: Product not found in cart
+  /api/cart/remove:
+    delete:
+      summary: Remove item from cart
+      description: Remove a product from the user’s cart
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveItemRequest'
+      responses:
+        200:
+          description: Item removed from cart
+        404:
+          description: Product not found in cart
+
+components:
+  schemas:
+    CartItem:
+      type: object
+      properties:
+        productId:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 2
+    RemoveItemRequest:
+      type: object
+      properties:
+        productId:
+          type: integer
+          example: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

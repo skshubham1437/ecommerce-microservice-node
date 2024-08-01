@@ -1,0 +1,9 @@
+CREATE TABLE "Users" (
+  "id" SERIAL PRIMARY KEY,
+  "mobile" VARCHAR(15) NOT NULL UNIQUE,
+  "otp" VARCHAR(6)
+);
+
+INSERT INTO "Users" ("mobile", "otp") VALUES
+('1234567890', '123456'),
+('0987654321', '654321');

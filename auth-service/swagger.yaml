@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Auth Service API
+  description: API for user authentication
+servers:
+  - url: http://localhost:3002
+    description: Development server
+
+paths:
+  /api/auth/login:
+    post:
+      summary: User login
+      description: Authenticate user with mobile number and OTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        400:
+          description: Invalid request
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        mobile:
+          type: string
+          example: "1234567890"
+        otp:
+          type: string
+          example: "123456"
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."

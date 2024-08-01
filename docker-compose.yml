@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  products-service:
+    build: ./products-service
+    ports:
+      - "3001:3000"
+    depends_on:
+      - products-db
+  products-db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=products_db
+      - POSTGRES_USER=your_database_user
+      - POSTGRES_PASSWORD=your_database_password
+    volumes:
+      - products-data:/var/lib/postgresql/data
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3002:3000"
+    depends_on:
+      - auth-db
+
+  auth-db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=auth_db
+      - POSTGRES_USER=your_database_user
+      - POSTGRES_PASSWORD=your_database_password
+    volumes:
+      - auth-data:/var/lib/postgresql/data
+
+  cart-service:
+    build: ./cart-service
+    ports:
+      - "3003:3000"
+    depends_on:
+      - cart-db
+
+  cart-db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=cart_db
+      - POSTGRES_USER=your_database_user
+      - POSTGRES_PASSWORD=your_database_password
+    volumes:
+      - cart-data:/var/lib/postgresql/data
+
+volumes:
+  products-data:
+  auth-data:
+  cart-data:
